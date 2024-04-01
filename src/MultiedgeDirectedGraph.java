@@ -1,10 +1,10 @@
 import java.util.*;
 
-public class MultiedgeGraphList implements IGraph {
+public class MultiedgeDirectedGraph implements IGraph {
     // G = (V"noedes", E)
     private Map<String, List<String>> adj;
 
-    public MultiedgeGraphList() {
+    public MultiedgeDirectedGraph() {
         adj = new HashMap<>();
     }
 
@@ -17,14 +17,12 @@ public class MultiedgeGraphList implements IGraph {
     public void addEdge(String node1Name, String node2Name) {
         if(hasNode(node1Name) && hasNode(node2Name)) {
             adj.get(node1Name).add(node2Name);
-            adj.get(node2Name).add(node1Name);
         }
     }
 
     @Override
     public void removeEdge(String node1Name, String node2Name) {
         adj.get(node1Name).remove(node2Name);
-        adj.get(node2Name).remove(node1Name);
     }
 
     @Override
