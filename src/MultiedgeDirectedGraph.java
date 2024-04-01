@@ -9,20 +9,36 @@ public class MultiedgeDirectedGraph implements IGraph {
     }
 
     @Override
-    public void addNode(String nodeName) {
-        adj.put(nodeName,new ArrayList<>());
-    }
-
-    @Override
-    public void addEdge(String node1Name, String node2Name) {
-        if(hasNode(node1Name) && hasNode(node2Name)) {
-            adj.get(node1Name).add(node2Name);
+    public boolean addNode(String nodeName) {
+        if (!hasNode(nodeName)) {
+            adj.put(nodeName, new ArrayList<>());
+            return true;
         }
+        return false;
     }
 
     @Override
-    public void removeEdge(String node1Name, String node2Name) {
-        adj.get(node1Name).remove(node2Name);
+    public boolean addEdge(String node1Name, String node2Name) {
+        if (!hasEdge(node1Name,node2Name)) {
+            adj.get(node1Name).add(node2Name);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean removeEdge(String node1Name, String node2Name) {
+        return adj.get(node1Name).remove(node2Name);
+    }
+
+    @Override
+    public boolean removeNode(String nodeName) {
+        if (hasNode(nodeName)) {
+            adj.remove(nodeName);
+            adj.forEach((k, v) -> v.remove(nodeName));
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -1,10 +1,12 @@
 public interface IGraph {
     // G = (V"noedes", E)
-     void addNode(String nodeName);
 
-    void addEdge(String node1Name, String node2Name);
+    boolean addNode(String nodeName);
 
-    void removeEdge(String node1Name, String node2Name);
+    boolean addEdge(String node1Name, String node2Name);
+
+    boolean removeEdge(String node1Name, String node2Name);
+    boolean removeNode(String nodeName);
 
     int getNodeCount();
 
