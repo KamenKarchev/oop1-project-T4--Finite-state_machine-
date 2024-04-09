@@ -4,7 +4,7 @@ import java.util.Map;
 public class CommandHandler {
 
     private static CommandHandler instance;
-    private static Map<Integer, IParameterlessCommand> commands;
+    private static Map<Integer, ICommand> commands;
 
     private CommandHandler() {
         commands = new HashMap<>();
@@ -18,13 +18,19 @@ public class CommandHandler {
     }
 
     public void initializeCommands() {
-        commands.put(1, () -> System.out.println("thing 1"));
-        commands.put(2, () -> System.out.println("thing 2"));
+        IParameterizedCommand ipzc = System.out::printf;
+        IParameterlessCommand iplc = () -> System.out.println("thing 2");
+        commands.put(1, ipzc);
+        commands.put(2, iplc);
     }
 
     public void executeCommand(int choice) {
-        IParameterlessCommand command = commands.getOrDefault(choice, () -> System.out.println("Invalid choice. Please choose again."));
-        command.execute();
+        ICommand command = commands.getOrDefault(choice, (IParameterlessCommand)(() -> System.out.println("Invalid choice. Please choose again.")));
+        ((IParameterlessCommand)command).execute();
     }
-    //TODO FOR COMMAND WITH PARAMETERS
+
+    public void executeCommand(int choice, String parameter) {
+        ICommand command = commands.getOrDefault(choice, (IParameterlessCommand)(() -> System.out.println("Invalid choice. Please choose again.")));
+        ((IParameterizedCommand)command).execute(parameter);
+    }
 }
