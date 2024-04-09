@@ -4,7 +4,7 @@ import java.util.Map;
 public class CommandHandler {
 
     private static CommandHandler instance;
-    private static Map<Integer, Runnable> commands;
+    private static Map<Integer, IParameterlessCommand> commands;
 
     private CommandHandler() {
         commands = new HashMap<>();
@@ -23,7 +23,8 @@ public class CommandHandler {
     }
 
     public void executeCommand(int choice) {
-        Runnable command = commands.getOrDefault(choice, () -> System.out.println("Invalid choice. Please choose again."));
-        command.run();
+        IParameterlessCommand command = commands.getOrDefault(choice, () -> System.out.println("Invalid choice. Please choose again."));
+        command.execute();
     }
+    //TODO FOR COMMAND WITH PARAMETERS
 }
