@@ -77,6 +77,12 @@ public class CommandHandler {
         this.registry = registry;
     }
 
+    /**
+     * Връща singleton инстанцията на handler-а и (при първо извикване) инициализира CLI контекста
+     * и регистрира всички фабрики за команди.
+     *
+     * @return singleton инстанция
+     */
     public static CommandHandler getInstance() {
         if (instance == null) {
             // Създаваме домейн-обектите за текущата CLI сесия.

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<machines>
+  <m id="1" reg="app+o">
+    <i>
+      <node name="q5"/>
+    </i>
+    <a>
+      <node name="q6"/>
+    </a>
+    <g>
+      <node name="q5"/>
+      <node name="q6"/>
+      <edge from="q5" to="q6">a</edge>
+      <edge from="q5" to="q6">o</edge>
+    </g>
+  </m>
+</machines>

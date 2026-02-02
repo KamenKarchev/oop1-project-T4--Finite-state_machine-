@@ -7,9 +7,17 @@ import cli.command.factory.CommandFactory;
 import cli.runtime.CliContext;
 import exceptions.cli.CliException;
 
+/**
+ * <h2>Фабрика за {@code empty}</h2>
+ *
+ * <p>Създава {@link cli.command.commands.machine.EmptyCommand}.</p>
+ */
 public class EmptyCommandFactory implements CommandFactory {
     private final CliContext ctx;
 
+    /**
+     * @param ctx CLI контекст
+     */
     public EmptyCommandFactory(CliContext ctx) {
         this.ctx = ctx;
     }

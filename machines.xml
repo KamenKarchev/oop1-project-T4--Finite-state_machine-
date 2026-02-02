@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<machines>
+  <m id="1" reg="(a+b)*.c">
+    <i>
+      <node name="q9"/>
+    </i>
+    <a>
+      <node name="q10"/>
+    </a>
+    <g>
+      <node name="q10"/>
+      <node name="q9"/>
+      <edge from="q9" to="q10">c</edge>
+      <edge from="q9" to="q9">a</edge>
+      <edge from="q9" to="q9">b</edge>
+    </g>
+  </m>
+</machines>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<machines>
+  <m id="2" reg="a.a.a.a.a.(b)*.c">
+    <i>
+      <node name="q2"/>
+    </i>
+    <a>
+      <node name="q17"/>
+    </a>
+    <g>
+      <node name="q2"/>
+      <node name="q10"/>
+      <node name="q4"/>
+      <node name="q6"/>
+      <node name="q17"/>
+      <node name="q8"/>
+      <node name="q16"/>
+      <edge from="q2" to="q4">a</edge>
+      <edge from="q10" to="q16">a</edge>
+      <edge from="q4" to="q6">a</edge>
+      <edge from="q6" to="q8">a</edge>
+      <edge from="q8" to="q10">a</edge>
+      <edge from="q16" to="q17">c</edge>
+      <edge from="q16" to="q16">b</edge>
+    </g>
+  </m>
+</machines>

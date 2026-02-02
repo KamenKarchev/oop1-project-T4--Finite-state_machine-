@@ -7,9 +7,17 @@ import cli.command.commands.base.HelpCommand;
 import cli.runtime.CliContext;
 import exceptions.cli.CliException;
 
+/**
+ * <h2>Фабрика за {@code help}</h2>
+ *
+ * <p>Създава {@link cli.command.commands.base.HelpCommand}.</p>
+ */
 public class HelpCommandFactory implements CommandFactory {
     private final CliContext ctx;
 
+    /**
+     * @param ctx CLI контекст
+     */
     public HelpCommandFactory(CliContext ctx) {
         this.ctx = ctx;
     }

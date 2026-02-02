@@ -1,0 +1,209 @@
+Loading source files for package cli.command...
+Loading source files for package cli.runtime...
+Loading source files for package cli.operations...
+Loading source files for package cli.command.factory...
+Loading source files for package cli.command.factory.impl...
+Loading source files for package cli.command.commands...
+Loading source files for package cli.command.commands.base...
+Loading source files for package cli.command.commands.file...
+Loading source files for package cli.command.commands.machine...
+Constructing Javadoc information...
+src\machine\MachineFacade.java:8: error: package graph.mdg does not exist
+import graph.mdg.MDGEdge;
+                ^
+src\machine\MachineFacade.java:9: error: package graph.mdg does not exist
+import graph.mdg.MDGNode;
+                ^
+src\io\MachineXmlStore.java:7: error: package graph.mdg does not exist
+import graph.mdg.MDGNode;
+                ^
+src\machine\MultiedgeFinateLogicMachine.java:7: error: package graph.mdg does not exist
+import graph.mdg.MDGEdge;
+                ^
+src\machine\MultiedgeFinateLogicMachine.java:8: error: package graph.mdg does not exist
+import graph.mdg.MDGNode;
+                ^
+src\machine\MultiedgeFinateLogicMachine.java:9: error: package graph.mdg does not exist
+import graph.mdg.MultiedgeDirectedGraph;
+                ^
+src\machine\MultiedgeFinateLogicMachine.java:26: error: cannot find symbol
+    private final MultiedgeDirectedGraph graph;
+                  ^
+  symbol:   class MultiedgeDirectedGraph
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:28: error: cannot find symbol
+    private final Set<MDGNode> startStates;
+                      ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:29: error: cannot find symbol
+    private final Set<MDGNode> acceptStates;
+                      ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:40: error: cannot find symbol
+    public MultiedgeFinateLogicMachine(Set<Character> alphabet, MultiedgeDirectedGraph graph) throws InvalidAlphabetException {
+                                                                ^
+  symbol:   class MultiedgeDirectedGraph
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:74: error: cannot find symbol
+    public List<MDGNode> getStates() {
+                ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:78: error: cannot find symbol
+    public void addState(MDGNode state) throws GraphException, InvalidStateException {
+                         ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:82: error: cannot find symbol
+    public void addStartState(MDGNode state) throws GraphException, InvalidStateException {
+                              ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:87: error: cannot find symbol
+    public void removeStartState(MDGNode state) throws InvalidStateException {
+                                 ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:94: error: cannot find symbol
+    public Set<MDGNode> getStartStates() throws InvalidStateException {
+               ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:103: error: cannot find symbol
+    public void addAcceptState(MDGNode state) throws GraphException, InvalidStateException {
+                               ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:108: error: cannot find symbol
+    public void removeAcceptState(MDGNode state) throws InvalidStateException {
+                                  ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:115: error: cannot find symbol
+    public Set<MDGNode> getAcceptStates() throws InvalidStateException {
+               ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:123: error: cannot find symbol
+    public void addTransition(MDGNode from, MDGNode to, Character label)
+                              ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:123: error: cannot find symbol
+    public void addTransition(MDGNode from, MDGNode to, Character label)
+                                            ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:134: error: cannot find symbol
+    public boolean hasTransition(MDGNode from, MDGNode to, Character label) throws GraphException, InvalidStateException {
+                                 ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:134: error: cannot find symbol
+    public boolean hasTransition(MDGNode from, MDGNode to, Character label) throws GraphException, InvalidStateException {
+                                               ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:140: error: cannot find symbol
+    public void removeTransition(MDGNode from, MDGNode to, Character label) throws GraphException, InvalidStateException {
+                                 ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:140: error: cannot find symbol
+    public void removeTransition(MDGNode from, MDGNode to, Character label) throws GraphException, InvalidStateException {
+                                               ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:153: error: cannot find symbol
+    public void cutState(MDGNode node1, MDGNode node2) throws GraphException, InvalidStateException {
+                         ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:153: error: cannot find symbol
+    public void cutState(MDGNode node1, MDGNode node2) throws GraphException, InvalidStateException {
+                                        ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:251: error: cannot find symbol
+    private Set<MDGNode> move(Set<MDGNode> states, Character symbol) throws InvalidSymbolException {
+                                  ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:251: error: cannot find symbol
+    private Set<MDGNode> move(Set<MDGNode> states, Character symbol) throws InvalidSymbolException {
+                ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:269: error: cannot find symbol
+    private Set<MDGNode> epsilonClosure(Set<MDGNode> seeds) {
+                                            ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:269: error: cannot find symbol
+    private Set<MDGNode> epsilonClosure(Set<MDGNode> seeds) {
+                ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:294: error: cannot find symbol
+    private MDGNode ensureState(MDGNode state) throws GraphException, InvalidStateException {
+                                ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:294: error: cannot find symbol
+    private MDGNode ensureState(MDGNode state) throws GraphException, InvalidStateException {
+            ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:307: error: cannot find symbol
+    private MDGNode requireExistingState(MDGNode state) throws InvalidStateException {
+                                         ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:307: error: cannot find symbol
+    private MDGNode requireExistingState(MDGNode state) throws InvalidStateException {
+            ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MultiedgeFinateLogicMachine.java:318: error: cannot find symbol
+    private MDGNode getCanonicalByNameOrNull(String name) {
+            ^
+  symbol:   class MDGNode
+  location: class MultiedgeFinateLogicMachine
+src\machine\MachineFacade.java:197: error: cannot find symbol
+    private static MDGNode newNode(MultiedgeFinateLogicMachine m, String name) throws GraphException, InvalidStateException {
+                   ^
+  symbol:   class MDGNode
+  location: class MachineFacade
+src\machine\MachineFacade.java:150: error: cannot find symbol
+        final Map<String, MDGNode> map;
+                          ^
+  symbol:   class MDGNode
+  location: class CopyResult
+src\machine\MachineFacade.java:151: error: cannot find symbol
+        final Set<MDGNode> starts;
+                  ^
+  symbol:   class MDGNode
+  location: class CopyResult
+src\machine\MachineFacade.java:152: error: cannot find symbol
+        final Set<MDGNode> accepts;
+                  ^
+  symbol:   class MDGNode
+  location: class CopyResult
+src\machine\MachineFacade.java:154: error: cannot find symbol
+        CopyResult(Map<String, MDGNode> map, Set<MDGNode> starts, Set<MDGNode> accepts) {
+                               ^
+  symbol:   class MDGNode
+  location: class CopyResult
+src\machine\MachineFacade.java:154: error: cannot find symbol
+        CopyResult(Map<String, MDGNode> map, Set<MDGNode> starts, Set<MDGNode> accepts) {
+                                                 ^
+  symbol:   class MDGNode
+  location: class CopyResult
+src\machine\MachineFacade.java:154: error: cannot find symbol
+        CopyResult(Map<String, MDGNode> map, Set<MDGNode> starts, Set<MDGNode> accepts) {
+                                                                      ^
+  symbol:   class MDGNode
+  location: class CopyResult
+42 errors

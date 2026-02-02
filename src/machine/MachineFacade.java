@@ -22,14 +22,27 @@ import java.util.Set;
 public class MachineFacade {
     private final MachineRegistry registry;
 
+    /**
+     * @param registry регистърът, върху който фасадата работи
+     */
     public MachineFacade(MachineRegistry registry) {
         this.registry = Objects.requireNonNull(registry, "registry");
     }
 
+    /**
+     * @return всички ID-та на машини в текущия регистър
+     */
     public Set<Integer> listIds() {
         return registry.ids();
     }
 
+    /**
+     * Създава нов автомат от регулярен израз и го регистрира.
+     *
+     * @param regex регулярен израз
+     * @return ID на новата машина
+     * @throws RegexParseException ако regex не може да бъде парснат/построен
+     */
     public int reg(String regex) throws RegexParseException {
         try {
             MultiedgeFinateLogicMachine m = new RegexParser().parse(regex);
@@ -39,18 +52,45 @@ public class MachineFacade {
         }
     }
 
+    /**
+     * @param id ID на машина
+     * @return {@code true} ако езикът на автомата е празен
+     * @throws InvalidStateException ако машината е в невалидно състояние
+     */
     public boolean empty(int id) throws InvalidStateException {
         return registry.get(id).isLanguageEmpty();
     }
 
+    /**
+     * @param id ID на машина
+     * @return {@code true} ако автоматът е детерминиран
+     * @throws InvalidStateException при невалидно състояние
+     * @throws InvalidSymbolException при проблем със символи/преходи
+     */
     public boolean deterministic(int id) throws InvalidStateException, InvalidSymbolException {
         return registry.get(id).isDeterministic();
     }
 
+    /**
+     * Проверява дали автоматът приема подадената дума.
+     *
+     * @param id ID на машина
+     * @param word дума (може да е празен стринг за ε)
+     * @return {@code true} ако се приема
+     * @throws InvalidStateException при невалидно състояние
+     * @throws InvalidSymbolException ако думата съдържа символ извън азбуката
+     */
     public boolean recognize(int id, String word) throws InvalidStateException, InvalidSymbolException {
         return registry.get(id).recognizes(word);
     }
 
+    /**
+     * Създава нов автомат за обединението на два автомата.
+     *
+     * @param id1 ID на първа машина
+     * @param id2 ID на втора машина
+     * @return ID на новата машина
+     */
     public int union(int id1, int id2) throws GraphException, InvalidStateException, InvalidSymbolException, InvalidAlphabetException {
         MultiedgeFinateLogicMachine a = registry.get(id1);
         MultiedgeFinateLogicMachine b = registry.get(id2);
@@ -63,6 +103,13 @@ public class MachineFacade {
         return registry.register(out);
     }
 
+    /**
+     * Създава нов автомат за конкатенация на два автомата.
+     *
+     * @param id1 ID на първа машина
+     * @param id2 ID на втора машина
+     * @return ID на новата машина
+     */
     public int concat(int id1, int id2) throws GraphException, InvalidStateException, InvalidSymbolException, InvalidAlphabetException {
         MultiedgeFinateLogicMachine a = registry.get(id1);
         MultiedgeFinateLogicMachine b = registry.get(id2);
@@ -75,6 +122,13 @@ public class MachineFacade {
         return registry.register(out);
     }
 
+    /**
+     * Положителна Клини-затвореност \(L^+\): създава нов автомат, който приема една или повече
+     * конкатенирани думи от езика на оригиналния автомат.
+     *
+     * @param id ID на машина
+     * @return ID на новата машина
+     */
     public int un(int id) throws GraphException, InvalidStateException, InvalidSymbolException, InvalidAlphabetException {
         MultiedgeFinateLogicMachine a = registry.get(id);
         MultiedgeFinateLogicMachine out = new MultiedgeFinateLogicMachine(a.getAlphabet());
@@ -102,6 +156,13 @@ public class MachineFacade {
         return registry.register(out);
     }
 
+    /**
+     * Форматира машина в текстов вид за печат в CLI.
+     *
+     * @param id ID на машина
+     * @return човекочетим текст
+     * @throws InvalidStateException при липсваща/невалидна машина
+     */
     public String formatMachine(int id) throws InvalidStateException {
         MultiedgeFinateLogicMachine m = registry.get(id);
 

@@ -62,6 +62,13 @@ import java.util.Set;
  */
 public final class MachineXmlStore {
 
+    /**
+     * Зарежда XML файл и връща нов {@link MachineRegistry} със същите ID-та и машини.
+     *
+     * @param file път към XML файла
+     * @return нов регистър, попълнен от файла
+     * @throws IOException при I/O проблем или невалиден XML формат
+     */
     public MachineRegistry load(Path file) throws IOException {
         try (InputStream in = Files.newInputStream(file)) {
             DocumentBuilderFactory f = DocumentBuilderFactory.newInstance();
@@ -94,6 +101,13 @@ public final class MachineXmlStore {
         }
     }
 
+    /**
+     * Записва целия регистър от машини в XML файл.
+     *
+     * @param file път към изходния файл
+     * @param registry регистър за запис
+     * @throws IOException при I/O проблем или грешка при сериализация
+     */
     public void save(Path file, MachineRegistry registry) throws IOException {
         try (OutputStream out = Files.newOutputStream(file)) {
             Document doc = newDocument();
@@ -108,6 +122,18 @@ public final class MachineXmlStore {
         }
     }
 
+    /**
+     * Записва една машина (с дадено ID) като XML файл.
+     *
+     * <p>
+     * Файлът съдържа root {@code <machines>} с точно един {@code <m>} елемент.
+     * </p>
+     *
+     * @param file път към изходния файл
+     * @param id ID на машината (записва се като атрибут {@code id})
+     * @param machine машината за запис
+     * @throws IOException при I/O проблем или грешка при сериализация
+     */
     public void saveSingle(Path file, int id, MultiedgeFinateLogicMachine machine) throws IOException {
         try (OutputStream out = Files.newOutputStream(file)) {
             Document doc = newDocument();

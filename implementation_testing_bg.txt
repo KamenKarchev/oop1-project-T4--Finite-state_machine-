@@ -1,0 +1,169 @@
+1. Реализация, тестване (1–2 стр.)
+
+1.1. Реализация на класове (важни моменти + малки фрагменти)
+
+CLI диспечиране на команди (cli.command.CommandHandler)
+Централната идея е “pipeline” обработка на входен ред: токенизация → резолюция на команда (с арност) → фабрика → изпълнение.
+Това позволява лесно добавяне на нови команди без промени по main loop-а.
+
+Фрагмент:
+    public boolean handleLine(String line) throws Exception {
+        CommandLineTokenizer.CommandLineTokens tokens = CommandLineTokenizer.tokenize(line);
+        CommandToken token = CommandToken.resolve(tokens.commandName(), tokens.params().size());
+        CommandFactory factory = registry.get(token);
+        Command cmd = factory.create();
+        cmd.execute(tokens.params());
+        return token != CommandToken.EXIT;
+    }
+
+Различаване на команди по арност (cli.command.CommandToken)
+Ключов момент: save има 2 различни значения според броя аргументи (0 или 2). Това се решава с resolve(name, paramCount).
+
+Фрагмент:
+    public static CommandToken resolve(String commandName, int paramCount) throws UnknownCommandTokenException {
+        // ... normalize ...
+        return switch (normalized) {
+            case "save" -> {
+                if (paramCount == 0) yield SAVE;
+                if (paramCount == 2) yield SAVEM;
+                throw new UnknownCommandTokenException(
+                    "Invalid arguments for save: expected 0 or 2 parameters, got " + paramCount
+                );
+            }
+            // ...
+        };
+    }
+
+Токенизация с кавички и празен аргумент (cli.command.CommandLineTokenizer)
+Поддръжката на "" е важна, за да можем да подадем празна дума при recognize.
+
+Идея (обяснение):
+- splitArgs поддържа inQuotes и tokenWasQuoted.
+- Ако токенът е празен, но е бил в кавички (""), той пак се добавя в списъка от параметри.
+
+Фасада и регистър на машини (machine.MachineFacade, machine.MachineRegistry)
+Фасадата концентрира операциите, а регистърът държи in-memory състояние и генерация на ID. Така CLI командите остават тънък слой.
+
+Фрагмент (reg):
+    public int reg(String regex) throws RegexParseException {
+        try {
+            MultiedgeFinateLogicMachine m = new RegexParser().parse(regex);
+            return registry.register(m);
+        } catch (Exception e) {
+            throw new RegexParseException("Failed to parse regex: " + e.getMessage(), e);
+        }
+    }
+
+Модел на автомат и ε-NFA симулация (machine.MultiedgeFinateLogicMachine)
+- S и T идват от графа, а Σ, I, A се пазят като множества.
+- ε етикет се представя с label == null.
+- Разпознаването използва ε-closure между стъпките.
+
+Фрагмент (recognizes):
+    public boolean recognizes(String word) throws InvalidStateException, InvalidSymbolException {
+        Set<MDGNode> current = epsilonClosure(getStartStates());
+        for (int i = 0; i < word.length(); i++) {
+            char c = word.charAt(i);
+            assertSymbolAllowed(c);
+            current = epsilonClosure(move(current, c));
+            if (current.isEmpty()) return false;
+        }
+        for (MDGNode s : current) {
+            if (getAcceptStates().contains(s)) return true;
+        }
+        return false;
+    }
+
+Regex парсване към автомат (machine.RegexParser)
+При parse се извлича азбука от литералите в regex, което гарантира, че машината има коректна Σ без ръчно задаване.
+
+Фрагмент:
+    public MultiedgeFinateLogicMachine parse(String regex) throws ... {
+        String input = stripWhitespace(regex);
+        this.alphabet = deriveAlphabet(input);
+        MultiedgeFinateLogicMachine m = expression(input);
+        m.setOriginalRegex(input);
+        return m;
+    }
+
+XML persistence (io.MachineXmlStore, io.RegistryFileSession)
+- RegistryFileSession поддържа “текущ файл” за save без аргументи.
+- MachineXmlStore сериализира/десериализира регистъра и единична машина; ребрата са вложени в source <node>.
+
+Фрагмент (save):
+    public void save(MachineRegistry registry) throws IOException {
+        if (currentFile == null) {
+            throw new IOException("No file opened. Use saveas <file> first.");
+        }
+        xml.save(currentFile, registry);
+    }
+
+
+1.2. Алгоритми и оптимизации
+
+Алгоритми
+- ε-closure (BFS): обхождане на ε-ребра (label == null) от начално множество състояния; използва се преди първия символ и
+  след всяка стъпка при recognize.
+- NFA симулация: текущото множество от състояния се обновява чрез move(states, symbol) и после ε-closure.
+- Проверка за празен език: достижимост (BFS) от I (вкл. ε-closure) и проверка дали се достига някое състояние от A.
+- Проверка за детерминизъм: за всеки възел броим изходящи ребра по етикет; наличие на ε или повече от 1 ребро за символ
+  означава недетерминизъм.
+
+Оптимизации/структури
+- Хеш-множества за ребра: изходящите ребра на възел са в Set, което дава бързи операции за наличие/премахване и улеснява
+  проверките за детерминизъм.
+- Visited множества при BFS: при ε-closure и достижимост се използва “visited” (в проекта често по имена на възли), за да
+  се избегнат цикли и повторна обработка.
+- Разделяне на слоеве: CLI/фасада/граф/XML са отделени — това улеснява поддръжка, разширяемост и тестване.
+
+
+1.3. Планиране, описание и създаване на тестови сценарии (примери)
+
+Тестовете тук са описани като “сценарии” (manual acceptance tests) — изпълними последователности от CLI команди с очакван резултат.
+
+Сценарий A: Създаване и разпознаване
+Цел: да се провери reg, print, recognize, ε-дума.
+Стъпки:
+- reg a → очаква се да върне id=<n> (някакво число).
+- recognize <n> a → true
+- recognize <n> "" → false
+- recognize <n> b → грешка (символ извън Σ)
+
+Сценарий B: Обединение и конкатенация
+Цел: да се провери композиция на regex и създаване на нови машини.
+Стъпки:
+- reg a
+- reg b
+- union <idA> <idB> → ново id=<u> и (ако командата печата) regex=(a)+(b)
+- recognize <u> a → true
+- recognize <u> b → true
+- recognize <u> ab → обикновено false
+- concat <idA> <idB> → ново id=<c> и regex=(a).(b)
+- recognize <c> ab → true
+- recognize <c> a → false
+
+Сценарий C: Празен език / детерминизъм
+Цел: проверка на empty и deterministic за машини от regex.
+Примерни regex-и:
+- reg a → deterministic обикновено true (ако няма ε и има един старт)
+- reg (a+b) → може да е недетерминистичен, ако конструкцията използва ε или води до множество преходи
+Стъпки:
+- empty <id> → очаквано false (има поне една дума, напр. “a”)
+- (ако има пример за автомат без достижимо крайно състояние) empty → true
+
+Сценарий D: XML persistence (регистър)
+Цел: проверка на saveas, save, open, close.
+Стъпки:
+- reg (a+b).c
+- saveas machines.xml → файлът се създава и става “current”
+- close → current файл се нулира
+- save → очаква се грешка “No file opened…”
+- open machines.xml → регистърът се зарежда от файла; list трябва да показва ID-тата
+- save → трябва да записва обратно в machines.xml без да пита за път
+
+Сценарий E: Запис на единична машина
+Цел: save <id> <file> (SAVEM).
+Стъпки:
+- reg a
+- save <id> one.xml → one.xml съдържа точно една машина в <machines>.
+

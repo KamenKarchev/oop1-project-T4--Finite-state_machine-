@@ -7,9 +7,17 @@ import cli.command.commands.base.ExitCommand;
 import cli.runtime.CliContext;
 import exceptions.cli.CliException;
 
+/**
+ * <h2>Фабрика за {@code exit}</h2>
+ *
+ * <p>Създава {@link cli.command.commands.base.ExitCommand}.</p>
+ */
 public class ExitCommandFactory implements CommandFactory {
     private final CliContext ctx;
 
+    /**
+     * @param ctx CLI контекст
+     */
     public ExitCommandFactory(CliContext ctx) {
         this.ctx = ctx;
     }
